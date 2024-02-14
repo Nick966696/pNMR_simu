@@ -1,0 +1,1455 @@
+<div id="glowscript" class="glowscript">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link type="text/css" href="https://www.glowscript.org/css/redmond/2.1/jquery-ui.custom.css" rel="stylesheet" />
+<link type="text/css" href="https://www.glowscript.org/css/ide.css" rel="stylesheet" />
+<script type="text/javascript" src="https://www.glowscript.org/lib/jquery/2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://www.glowscript.org/lib/jquery/2.1/jquery-ui.custom.min.js"></script>
+<script type="text/javascript" src="https://www.glowscript.org/package/glow.3.2.min.js"></script>
+<script type="text/javascript" src="https://www.glowscript.org/package/RSrun.3.2.min.js"></script>
+<script type="text/javascript"><!--//--><![CDATA[//><!--
+
+// START JAVASCRIPT
+;(function() {;
+var ρσ_modules = {};
+var spins, omega_local, lil_ems, delta, prog_ctl, is_arrow, newspins, FWHM, running, Npulse, pulse_time, wt_next_pulse, gd, f1, Mx, My, t_plot, t, mz, mr_ave, scene, wt_time, tip, in_rotating_frame, RF_frame_checkbox, pct_speed, current_dt, RF_frame_only, RF_on, RFtype, T, T2, sequence_interval, Apulse_type, Bpulse_type, Tpulse, sequence_state, instant_pulse, Apulse_yes, Bpulse_yes, plotting, phi_latch, phi1, N_start, t_nextPulse, t_boundary;
+ρσ_modules.pythonize = {};
+
+(function(){
+    function strings() {
+        var string_funcs, exclude, name;
+        string_funcs = set("capitalize strip lstrip rstrip islower isupper isspace lower upper swapcase center count endswith startswith find rfind index rindex format join ljust rjust partition rpartition replace split rsplit splitlines zfill".split(" "));
+        if (!arguments.length) {
+            exclude = (function(){
+                var s = ρσ_set();
+                s.jsset.add("split");
+                s.jsset.add("replace");
+                return s;
+            })();
+        } else if (arguments[0]) {
+            exclude = Array.prototype.slice.call(arguments);
+        } else {
+            exclude = null;
+        }
+        if (exclude) {
+            string_funcs = string_funcs.difference(set(exclude));
+        }
+        var ρσ_Iter0 = string_funcs;
+        ρσ_Iter0 = ((typeof ρσ_Iter0[Symbol.iterator] === "function") ? (ρσ_Iter0 instanceof Map ? ρσ_Iter0.keys() : ρσ_Iter0) : Object.keys(ρσ_Iter0));
+        for (var ρσ_Index0 of ρσ_Iter0) {
+            name = ρσ_Index0;
+            (ρσ_expr_temp = String.prototype)[(typeof name === "number" && name < 0) ? ρσ_expr_temp.length + name : name] = (ρσ_expr_temp = ρσ_str.prototype)[(typeof name === "number" && name < 0) ? ρσ_expr_temp.length + name : name];
+        }
+    };
+    if (!strings.__module__) Object.defineProperties(strings, {
+        __module__ : {value: "pythonize"}
+    });
+
+    ρσ_modules.pythonize.strings = strings;
+})();
+async function __main__() {
+"use strict";
+    var display = canvas;
+    var scene = canvas();
+
+    function round(num, n=0) {return Number(num.toFixed(n))}
+
+    function input(arg) {
+    	arg = arg || {}
+    	if (arg.prompt !== undefined && arg.prompt != '') return prompt(arg.prompt)
+    	else if (typeof arg === 'string') return prompt(arg)
+    	else return prompt()
+    }
+    fontloading();
+    await waitforfonts();
+
+    var version, print, arange, __name__, type, ρσ_ls, ticks_per_s, pct_speed, default_dt, dt, current_dt, t, t_plot, chi, omega0, gamma, FWHM, delta, T0, Nspins, Om0, m0, spins, omega_local, lil_ems, Tpulse, scene, Spin_number, fwhm_w, frame_button, sl_sim_speed, wt_sim_speed, RF_frame_checkbox, RF_menu, Instant_checkbox, NumB_pulse_menu, Interval_menu, Apulse_checkbox, Apulse_menu, A_RF_menu, Bpulse_checkbox, Bpulse_menu, B_RF_menu, w_delta, sl_h1, wt_h1, sl_dW, wt_dW, wt_dW_0, T_menu, T2_menu, show_signal_checkbox, show_Mz_checkbox, show_Mr_ave_checkbox, show_Mx_checkbox, show_My_checkbox, wt_time, wt_next_pulse, rotating_frame, M, B, phi1, dphi1, pulse_time, OMEGA, m, T_max, T, T2, running, in_rotating_frame, RF_frame_only, RF_on, RFtype, N_start, sequence_state, plotting, phi_latch, is_arrow, prog_ctl, newspins, Npulse, Apulse_type, Bpulse_type, sequence_interval, t_nextPulse, t_boundary, instant_pulse, Apulse_yes, Bpulse_yes, ρσ_unpack, gd, f1, mz, Mx, My, mr_ave, spin_0_trail, trail_points, tip, instant, OMEGA_lab, spin, em, m_ave_perp, mm, hh, i, m_signal;
+    version = ρσ_list_decorate([ "3.2", "glowscript" ]);
+    Array.prototype['+'] = function(r) {return this.concat(r)}
+    Array.prototype['*'] = function(r) {return __array_times_number(this, r)}
+    window.__GSlang = "vpython";
+    print = GSprint;
+    arange = range;
+    __name__ = "__main__";
+    type = pytype;
+    var strings = ρσ_modules.pythonize.strings;
+
+    strings();
+    "11";
+    ticks_per_s = 64;
+    "12";
+    pct_speed = 1;
+    "13";
+    default_dt = float(1["/"](ticks_per_s));
+    "14";
+    dt = default_dt;
+    "15";
+    current_dt = default_dt;
+    "16";
+    t = 0;
+    "17";
+    t_plot = 0;
+    "20";
+    chi = .8;
+    "21";
+    omega0 = 4["*"](pi);
+    "22";
+    gamma = 2;
+    "25";
+    FWHM = sqrt(2["*"](log(2)))["/"](1);
+    "26";
+    delta = 1.2;
+    "27";
+    T0 = 1e6;
+    "28";
+    Nspins = 3e3;
+    "31";
+    Om0 = vector(0, 0, omega0);
+    "32";
+    m0 = chi["*"](Om0)["/"](gamma);
+    "35";
+    spins = ρσ_list_decorate([]);
+    "36";
+    omega_local = ρσ_list_decorate([]);
+    "37";
+    lil_ems = ρσ_list_decorate([]);
+    "38";
+    Tpulse = ρσ_list_decorate([]);
+    "44";
+    async function set_scene() {
+        var size = (arguments[0] === undefined || ( 0 === arguments.length["-"](1) && arguments[arguments.length["-"](1)] !== null && typeof arguments[arguments.length["-"](1)] === "object" && arguments[arguments.length["-"](1)] [ρσ_kwargs_symbol] === true)) ? set_scene.__defaults__.size : arguments[0];
+        var ρσ_kwargs_obj = arguments[arguments.length["-"](1)];
+        if (ρσ_kwargs_obj === null || typeof ρσ_kwargs_obj !== "object" || ρσ_kwargs_obj [ρσ_kwargs_symbol] !== true) ρσ_kwargs_obj = {};
+        if (Object.prototype.hasOwnProperty.call(ρσ_kwargs_obj, "size")){
+            size = ρσ_kwargs_obj.size;
+        }
+        var ρσ_ls, myscene;
+        "49";
+        myscene = canvas();
+        "50";
+        myscene.align = "left";
+        "51";
+        myscene.height = size;
+        "52";
+        myscene.width = size;
+        "53";
+        myscene.range = 8.5;
+        (await sleep(.1));
+        "54";
+        myscene.autoscale = false;
+        "55";
+        myscene.background = color.white;
+        "56";
+        myscene.forward = vector(1["-u"]()["*"](1), 1["-u"]()["*"](.5), 1["-u"]()["*"](.3));
+        "57";
+        myscene.up = vector(0, 0, 1);
+        "58";
+        return myscene;
+    };
+    if (!set_scene.__defaults__) Object.defineProperties(set_scene, {
+        __defaults__ : {value: {size:530}},
+        __handles_kwarg_interpolation__ : {value: true},
+        __argnames__ : {value: ["size"]},
+        __module__ : {value: null}
+    });
+
+    "60";
+    async function draw_axes() {
+        var length = (arguments[0] === undefined || ( 0 === arguments.length["-"](1) && arguments[arguments.length["-"](1)] !== null && typeof arguments[arguments.length["-"](1)] === "object" && arguments[arguments.length["-"](1)] [ρσ_kwargs_symbol] === true)) ? draw_axes.__defaults__.length : arguments[0];
+        var ρσ_kwargs_obj = arguments[arguments.length["-"](1)];
+        if (ρσ_kwargs_obj === null || typeof ρσ_kwargs_obj !== "object" || ρσ_kwargs_obj [ρσ_kwargs_symbol] !== true) ρσ_kwargs_obj = {};
+        if (Object.prototype.hasOwnProperty.call(ρσ_kwargs_obj, "length")){
+            length = ρσ_kwargs_obj.length;
+        }
+        var ρσ_ls, xaxis, xlabel, yaxis, ylabel, zaxis, zlabel;
+        "64";
+        xaxis = ρσ_interpolate_kwargs.call(this, cylinder, [ρσ_desugar_kwargs({pos: vector(1["-u"]()["*"](length)["/"](2), 0, 0), axis: vector(length, 0, 0), radius: .05, color: color.gray(.7)})]);
+        "66";
+        xlabel = ρσ_interpolate_kwargs.call(this, text, [ρσ_desugar_kwargs({pos: 1["-u"]()["*"](xaxis.pos)["+"](vector(0, 0, .2)), text: "x'", axis: vector(1["-u"]()["*"](1), 0, 0), align: "center", up: vector(0, 0, 1), height: .5, color: color.gray(.8)})]);
+        "69";
+        yaxis = ρσ_interpolate_kwargs.call(this, cylinder, [ρσ_desugar_kwargs({pos: vector(0, 1["-u"]()["*"](length)["/"](2), 0), axis: vector(0, length, 0), radius: .05, color: color.gray(.7)})]);
+        "71";
+        ylabel = ρσ_interpolate_kwargs.call(this, text, [ρσ_desugar_kwargs({pos: 1["-u"]()["*"](yaxis.pos)["+"](vector(0, 0, .2)), text: "y'", axis: vector(0, 1, 0), align: "center", up: vector(0, 0, 1), height: .5, color: color.gray(.8)})]);
+        "74";
+        zaxis = ρσ_interpolate_kwargs.call(this, cylinder, [ρσ_desugar_kwargs({pos: vector(0, 0, 1["-u"]()["*"](length)["/"](2)), axis: vector(0, 0, length), radius: .05, color: color.gray(.7)})]);
+        "76";
+        zlabel = ρσ_interpolate_kwargs.call(this, text, [ρσ_desugar_kwargs({pos: 1["-u"]()["*"](zaxis.pos)["+"](vector(0, 0, .2)), align: "center", text: "z", axis: vector(0, 1, 0), up: vector(0, 0, 1), height: .5, color: color.gray(.8)})]);
+        "79";
+        return ρσ_interpolate_kwargs.call(this, compound, [ρσ_list_decorate([ xaxis, yaxis, zaxis, xlabel, ylabel, zlabel ])].concat([ρσ_desugar_kwargs({axis: vector(1, 0, 0), origin: vector(0, 0, 0)})]));
+    };
+    if (!draw_axes.__defaults__) Object.defineProperties(draw_axes, {
+        __defaults__ : {value: {length:13}},
+        __handles_kwarg_interpolation__ : {value: true},
+        __argnames__ : {value: ["length"]},
+        __module__ : {value: null}
+    });
+
+    "82";
+    async function makeplot() {
+        var size = (arguments[0] === undefined || ( 0 === arguments.length["-"](1) && arguments[arguments.length["-"](1)] !== null && typeof arguments[arguments.length["-"](1)] === "object" && arguments[arguments.length["-"](1)] [ρσ_kwargs_symbol] === true)) ? makeplot.__defaults__.size : arguments[0];
+        var ρσ_kwargs_obj = arguments[arguments.length["-"](1)];
+        if (ρσ_kwargs_obj === null || typeof ρσ_kwargs_obj !== "object" || ρσ_kwargs_obj [ρσ_kwargs_symbol] !== true) ρσ_kwargs_obj = {};
+        if (Object.prototype.hasOwnProperty.call(ρσ_kwargs_obj, "size")){
+            size = ρσ_kwargs_obj.size;
+        }
+        var ρσ_ls, gd, f1, Mx, My, mz, mr_ave;
+        "86";
+        gd = ρσ_interpolate_kwargs.call(this, graph, [ρσ_desugar_kwargs({fast: true, align: "left", width: size, height: .5["*"](size), xtitle: "Time", ytitle: "Amplitude"})]);
+        "88";
+        f1 = ρσ_interpolate_kwargs.call(this, gcurve, [ρσ_desugar_kwargs({color: color.blue, width: 2, visible: show_signal_checkbox.checked})]);
+        "90";
+        Mx = ρσ_interpolate_kwargs.call(this, gcurve, [ρσ_desugar_kwargs({color: color.red, width: 2, visible: show_Mx_checkbox.checked})]);
+        "92";
+        My = ρσ_interpolate_kwargs.call(this, gcurve, [ρσ_desugar_kwargs({color: color.green, width: 2, visible: show_My_checkbox.checked})]);
+        "94";
+        mz = ρσ_interpolate_kwargs.call(this, gcurve, [ρσ_desugar_kwargs({color: color.gray(.5), width: 2, visible: show_Mz_checkbox.checked})]);
+        "96";
+        mr_ave = ρσ_interpolate_kwargs.call(this, gcurve, [ρσ_desugar_kwargs({color: color.orange, width: 2, visible: show_Mr_ave_checkbox.checked})]);
+        "98";
+        return [gd, f1, mz, Mx, My, mr_ave];
+    };
+    if (!makeplot.__defaults__) Object.defineProperties(makeplot, {
+        __defaults__ : {value: {size:510}},
+        __handles_kwarg_interpolation__ : {value: true},
+        __argnames__ : {value: ["size"]},
+        __module__ : {value: null}
+    });
+
+    "101";
+    async function spin_initialize() {
+        var Hwidth = (arguments[0] === undefined || ( 0 === arguments.length["-"](1) && arguments[arguments.length["-"](1)] !== null && typeof arguments[arguments.length["-"](1)] === "object" && arguments[arguments.length["-"](1)] [ρσ_kwargs_symbol] === true)) ? spin_initialize.__defaults__.Hwidth : arguments[0];
+        var N = (arguments[1] === undefined || ( 1 === arguments.length["-"](1) && arguments[arguments.length["-"](1)] !== null && typeof arguments[arguments.length["-"](1)] === "object" && arguments[arguments.length["-"](1)] [ρσ_kwargs_symbol] === true)) ? spin_initialize.__defaults__.N : arguments[1];
+        var ρσ_kwargs_obj = arguments[arguments.length["-"](1)];
+        if (ρσ_kwargs_obj === null || typeof ρσ_kwargs_obj !== "object" || ρσ_kwargs_obj [ρσ_kwargs_symbol] !== true) ρσ_kwargs_obj = {};
+        if (Object.prototype.hasOwnProperty.call(ρσ_kwargs_obj, "Hwidth")){
+            Hwidth = ρσ_kwargs_obj.Hwidth;
+        }
+        if (Object.prototype.hasOwnProperty.call(ρσ_kwargs_obj, "N")){
+            N = ρσ_kwargs_obj.N;
+        }
+        var ρσ_ls, em, field_range, i, max_field_low, max_field_hi, max_field, local_field, local_color;
+        "106";
+        "109";
+        var ρσ_Iter1 = lil_ems;
+        ρσ_Iter1 = ((typeof ρσ_Iter1[Symbol.iterator] === "function") ? (ρσ_Iter1 instanceof Map ? ρσ_Iter1.keys() : ρσ_Iter1) : Object.keys(ρσ_Iter1));
+        for (var ρσ_Index1 of ρσ_Iter1) {
+            em = ρσ_Index1;
+            "110";
+            em.visible = false;
+            "111";
+            em = undefined;
+        }
+        "112";
+        spins.clear();
+        "113";
+        omega_local.clear();
+        "114";
+        lil_ems.clear();
+        "117";
+        field_range = ρσ_list_decorate([]);
+        "118";
+        field_range.append(0);
+        "119";
+        for (var ρσ_Index2 = 0; ρσ_Index2["<"](N["-"](1["*"](1))); ρσ_Index2++) {
+            i = ρσ_Index2;
+            "120";
+            field_range.append(Hwidth["*"]((await normal_random())));
+        }
+        "124";
+        max_field_low = abs(min(field_range));
+        "125";
+        max_field_hi = abs(max(field_range));
+        "126";
+        max_field = max(max_field_hi, max_field_low);
+        "127";
+        if (max_field["<"](1e-6)) {
+            max_field = 1;
+        }
+        "130";
+        for (var ρσ_Index3 = 0; ρσ_Index3["<"](N); ρσ_Index3++) {
+            i = ρσ_Index3;
+            "131";
+            local_field = vector(0, 0, ρσ_getitem(field_range, i));
+            "132";
+            omega_local.append(local_field);
+            "133";
+            local_color = .55["*"](1["-"](1["*"](abs(ρσ_getitem(field_range, i)))["/"](max_field)));
+            "134";
+            if (is_arrow) {
+                "135";
+                lil_ems.append(ρσ_interpolate_kwargs.call(this, arrow, [ρσ_desugar_kwargs({pos: vector(0, 0, 0), axis: m0, shaftwidth: .02, round: true, color: color.hsv_to_rgb(vector(local_color, 1, 1))})]));
+                "137";
+            } else {
+                "138";
+                lil_ems.append(ρσ_interpolate_kwargs.call(this, simple_sphere, [ρσ_desugar_kwargs({pos: m0, radius: .12, color: color.hsv_to_rgb(vector(local_color, 1, 1))})]));
+            }
+            "140";
+            spins.append(m0);
+        }
+        "141";
+        return N;
+    };
+    if (!spin_initialize.__defaults__) Object.defineProperties(spin_initialize, {
+        __defaults__ : {value: {Hwidth:.04, N:300}},
+        __handles_kwarg_interpolation__ : {value: true},
+        __argnames__ : {value: ["Hwidth", "N"]},
+        __module__ : {value: null}
+    });
+
+    "146";
+    async function Optimal() {
+        var hx = (arguments[0] === undefined || ( 0 === arguments.length["-"](1) && arguments[arguments.length["-"](1)] !== null && typeof arguments[arguments.length["-"](1)] === "object" && arguments[arguments.length["-"](1)] [ρσ_kwargs_symbol] === true)) ? Optimal.__defaults__.hx : arguments[0];
+        var hy = (arguments[1] === undefined || ( 1 === arguments.length["-"](1) && arguments[arguments.length["-"](1)] !== null && typeof arguments[arguments.length["-"](1)] === "object" && arguments[arguments.length["-"](1)] [ρσ_kwargs_symbol] === true)) ? Optimal.__defaults__.hy : arguments[1];
+        var hz = (arguments[2] === undefined || ( 2 === arguments.length["-"](1) && arguments[arguments.length["-"](1)] !== null && typeof arguments[arguments.length["-"](1)] === "object" && arguments[arguments.length["-"](1)] [ρσ_kwargs_symbol] === true)) ? Optimal.__defaults__.hz : arguments[2];
+        var ρσ_kwargs_obj = arguments[arguments.length["-"](1)];
+        if (ρσ_kwargs_obj === null || typeof ρσ_kwargs_obj !== "object" || ρσ_kwargs_obj [ρσ_kwargs_symbol] !== true) ρσ_kwargs_obj = {};
+        if (Object.prototype.hasOwnProperty.call(ρσ_kwargs_obj, "hx")){
+            hx = ρσ_kwargs_obj.hx;
+        }
+        if (Object.prototype.hasOwnProperty.call(ρσ_kwargs_obj, "hy")){
+            hy = ρσ_kwargs_obj.hy;
+        }
+        if (Object.prototype.hasOwnProperty.call(ρσ_kwargs_obj, "hz")){
+            hz = ρσ_kwargs_obj.hz;
+        }
+        var ρσ_ls, cot_theta_sq, Omega_mag;
+        "151";
+        cot_theta_sq = Math.pow(hz, 2)["/"](Math.pow(hx, 2)["+"](Math.pow(hy, 2)));
+        "152";
+        Omega_mag = sqrt(Math.pow(hx, 2)["+"](Math.pow(hy, 2))["+"](Math.pow(hz, 2)));
+        "153";
+        if (cot_theta_sq[">"](1)) {
+            "154";
+            return pi["/"](Omega_mag);
+            "155";
+        } else {
+            "156";
+            return pi["-"](1["*"](acos(cot_theta_sq)))["/"](Omega_mag);
+        }
+    };
+    if (!Optimal.__defaults__) Object.defineProperties(Optimal, {
+        __defaults__ : {value: {hx:omega0, hy:0, hz:0}},
+        __handles_kwarg_interpolation__ : {value: true},
+        __argnames__ : {value: ["hx", "hy", "hz"]},
+        __module__ : {value: null}
+    });
+
+    "158";
+    async function Pulse_length() {
+        var Pulse_type = (arguments[0] === undefined || ( 0 === arguments.length["-"](1) && arguments[arguments.length["-"](1)] !== null && typeof arguments[arguments.length["-"](1)] === "object" && arguments[arguments.length["-"](1)] [ρσ_kwargs_symbol] === true)) ? Pulse_length.__defaults__.Pulse_type : arguments[0];
+        var ρσ_kwargs_obj = arguments[arguments.length["-"](1)];
+        if (ρσ_kwargs_obj === null || typeof ρσ_kwargs_obj !== "object" || ρσ_kwargs_obj [ρσ_kwargs_symbol] !== true) ρσ_kwargs_obj = {};
+        if (Object.prototype.hasOwnProperty.call(ρσ_kwargs_obj, "Pulse_type")){
+            Pulse_type = ρσ_kwargs_obj.Pulse_type;
+        }
+        var ρσ_ls, ρσ_unpack, Omx, Omy, Omz, Omega;
+        "163";
+        "165";
+        ρσ_unpack = (await RF_function(0, "x-axis"));
+ρσ_unpack = ρσ_unpack_asarray(2, ρσ_unpack);
+        Omx = ρσ_unpack[0];
+        Omy = ρσ_unpack[1];
+        "166";
+        Omz = (await Domega());
+        "167";
+        Omega = vector(Omx, Omy, Omz);
+        "168";
+        if ((Pulse_type === "pi/2" || typeof Pulse_type === "object" && ρσ_equals(Pulse_type, "pi/2"))) {
+            "169";
+            return pi["/"](2["*"](Omega.mag));
+            "170";
+        } else if ((Pulse_type === "pi" || typeof Pulse_type === "object" && ρσ_equals(Pulse_type, "pi"))) {
+            "171";
+            return pi["/"](Omega.mag);
+            "172";
+        } else if ((Pulse_type === "pi+error" || typeof Pulse_type === "object" && ρσ_equals(Pulse_type, "pi+error"))) {
+            "173";
+            return pi["*"](delta)["/"](Omega.mag);
+            "174";
+        } else {
+            "175";
+            return (await Optimal(Omx, Omy, Omz));
+        }
+    };
+    if (!Pulse_length.__defaults__) Object.defineProperties(Pulse_length, {
+        __defaults__ : {value: {Pulse_type:"pi"}},
+        __handles_kwarg_interpolation__ : {value: true},
+        __argnames__ : {value: ["Pulse_type"]},
+        __module__ : {value: null}
+    });
+
+    "177";
+    async function RF_function() {
+        var phi = ( 0 === arguments.length["-"](1) && arguments[arguments.length["-"](1)] !== null && typeof arguments[arguments.length["-"](1)] === "object" && arguments[arguments.length["-"](1)] [ρσ_kwargs_symbol] === true) ? undefined : arguments[0];
+        var RF_type = (arguments[1] === undefined || ( 1 === arguments.length["-"](1) && arguments[arguments.length["-"](1)] !== null && typeof arguments[arguments.length["-"](1)] === "object" && arguments[arguments.length["-"](1)] [ρσ_kwargs_symbol] === true)) ? RF_function.__defaults__.RF_type : arguments[1];
+        var ρσ_kwargs_obj = arguments[arguments.length["-"](1)];
+        if (ρσ_kwargs_obj === null || typeof ρσ_kwargs_obj !== "object" || ρσ_kwargs_obj [ρσ_kwargs_symbol] !== true) ρσ_kwargs_obj = {};
+        if (Object.prototype.hasOwnProperty.call(ρσ_kwargs_obj, "RF_type")){
+            RF_type = ρσ_kwargs_obj.RF_type;
+        }
+        "182";
+        if ((RF_type === "x-axis" || typeof RF_type === "object" && ρσ_equals(RF_type, "x-axis"))) {
+            "183";
+            return [sl_h1.value["*"](omega0), 0];
+            "184";
+        } else if ((RF_type === "oscillating" || typeof RF_type === "object" && ρσ_equals(RF_type, "oscillating"))) {
+            "185";
+            return [sl_h1.value["*"](omega0)["*"](1["+"](cos(2["*"](phi)))), sl_h1.value["*"](omega0)["*"](sin(2["*"](phi)))];
+            "186";
+        } else if ((RF_type === "y-axis" || typeof RF_type === "object" && ρσ_equals(RF_type, "y-axis"))) {
+            "187";
+            return [0, sl_h1.value["*"](omega0)];
+            "188";
+        } else {
+            "189";
+            return [0, 0];
+        }
+    };
+    if (!RF_function.__defaults__) Object.defineProperties(RF_function, {
+        __defaults__ : {value: {RF_type:"x-axis"}},
+        __handles_kwarg_interpolation__ : {value: true},
+        __argnames__ : {value: ["phi", "RF_type"]},
+        __module__ : {value: null}
+    });
+
+    "191";
+    async function ave_vector() {
+        var v_list = (arguments[0] === undefined || ( 0 === arguments.length["-"](1) && arguments[arguments.length["-"](1)] !== null && typeof arguments[arguments.length["-"](1)] === "object" && arguments[arguments.length["-"](1)] [ρσ_kwargs_symbol] === true)) ? ave_vector.__defaults__.v_list : arguments[0];
+        var ρσ_kwargs_obj = arguments[arguments.length["-"](1)];
+        if (ρσ_kwargs_obj === null || typeof ρσ_kwargs_obj !== "object" || ρσ_kwargs_obj [ρσ_kwargs_symbol] !== true) ρσ_kwargs_obj = {};
+        if (Object.prototype.hasOwnProperty.call(ρσ_kwargs_obj, "v_list")){
+            v_list = ρσ_kwargs_obj.v_list;
+        }
+        var ρσ_ls, ave_v, ave_v_perp, v;
+        "195";
+        ave_v = vector(0, 0, 0);
+        "196";
+        ave_v_perp = 0;
+        "197";
+        var ρσ_Iter4 = v_list;
+        ρσ_Iter4 = ((typeof ρσ_Iter4[Symbol.iterator] === "function") ? (ρσ_Iter4 instanceof Map ? ρσ_Iter4.keys() : ρσ_Iter4) : Object.keys(ρσ_Iter4));
+        for (var ρσ_Index4 of ρσ_Iter4) {
+            v = ρσ_Index4;
+            "198";
+            ave_v = ave_v["+"](v);
+            "199";
+            ave_v_perp = ave_v_perp["+"](sqrt(Math.pow(v.x, 2)["+"](Math.pow(v.y, 2))));
+        }
+        "200";
+        return [ave_v["/"](len(v_list)), ave_v_perp["/"](len(v_list))];
+    };
+    if (!ave_vector.__defaults__) Object.defineProperties(ave_vector, {
+        __defaults__ : {value: {v_list:ρσ_list_decorate([ m0 ])}},
+        __handles_kwarg_interpolation__ : {value: true},
+        __argnames__ : {value: ["v_list"]},
+        __module__ : {value: null}
+    });
+
+    "202";
+    async function Domega() {
+        "208";
+        return sl_h1.value["*"](omega0)["*"](1["-u"]())["*"](sl_dW.value);
+    };
+    if (!Domega.__module__) Object.defineProperties(Domega, {
+        __module__ : {value: null}
+    });
+
+    "210";
+    async function normal_random() {
+        var ρσ_ls, u1, u2;
+        "215";
+        u1 = random();
+        "216";
+        u2 = random();
+        "217";
+        return sqrt(1["-u"]()["*"](2)["*"](log(u1)))["*"](cos(2["*"](pi)["*"](u2)));
+    };
+    if (!normal_random.__module__) Object.defineProperties(normal_random, {
+        __module__ : {value: null}
+    });
+
+    "223";
+    async function Set_spin_shape(b) {
+        "228";
+        "230";
+        prog_ctl = "init";
+        "231";
+        is_arrow = !is_arrow;
+        "232";
+        if (is_arrow) {
+            b.text = "Balls/<b>Arrows<\/b>";
+        } else {
+            b.text = "<b>Balls</b>/Arrows";
+        }
+    };
+    if (!Set_spin_shape.__argnames__) Object.defineProperties(Set_spin_shape, {
+        __argnames__ : {value: ["b"]},
+        __module__ : {value: null}
+    });
+
+    "235";
+    async function Spin_select() {
+        "240";
+        "242";
+        prog_ctl = "init";
+        "243";
+        newspins = int(Spin_number.selected);
+    };
+    if (!Spin_select.__module__) Object.defineProperties(Spin_select, {
+        __module__ : {value: null}
+    });
+
+    "245";
+    async function FWHM_select() {
+        "250";
+        "252";
+        prog_ctl = "init";
+        "253";
+        FWHM = sqrt(2["*"](log(2)))["/"](float(fwhm_w.text));
+    };
+    if (!FWHM_select.__module__) Object.defineProperties(FWHM_select, {
+        __module__ : {value: null}
+    });
+
+    "257";
+    async function Run(b) {
+        "261";
+        "263";
+        running = !running;
+        "264";
+        if (running) {
+            b.text = "Pause";
+        } else {
+            b.text = "Run";
+        }
+    };
+    if (!Run.__argnames__) Object.defineProperties(Run, {
+        __argnames__ : {value: ["b"]},
+        __module__ : {value: null}
+    });
+
+    "267";
+    async function Reset_M() {
+        var ρσ_ls, i;
+        "272";
+        "274";
+        Npulse = 0;
+        "275";
+        pulse_time = 0;
+        "276";
+        wt_next_pulse.text = " ";
+        "277";
+        var ρσ_Iter5 = range(len(spins));
+        ρσ_Iter5 = ((typeof ρσ_Iter5[Symbol.iterator] === "function") ? (ρσ_Iter5 instanceof Map ? ρσ_Iter5.keys() : ρσ_Iter5) : Object.keys(ρσ_Iter5));
+        for (var ρσ_Index5 of ρσ_Iter5) {
+            i = ρσ_Index5;
+            "278";
+            ρσ_setitem(spins, i, m0);
+        }
+    };
+    if (!Reset_M.__module__) Object.defineProperties(Reset_M, {
+        __module__ : {value: null}
+    });
+
+    "280";
+    async function Clear_plot() {
+        var ρσ_ls, ρσ_unpack, xfield, yfield;
+        "285";
+        "286";
+        "290";
+        if (spin_0_trail) {
+            tip.clear_trail();
+        }
+        "291";
+        t = 0;
+        "292";
+        pulse_time = 0;
+        "293";
+        t_plot = 0;
+        "294";
+        wt_time.text = "Time: {:.1f}".format(t_plot);
+        "295";
+        f1.remove();
+        "296";
+        mz.remove();
+        "297";
+        Mx.remove();
+        "298";
+        My.remove();
+        "299";
+        mr_ave.remove();
+        "300";
+        gd.remove();
+        "301";
+        ρσ_unpack = (await makeplot());
+ρσ_unpack = ρσ_unpack_asarray(6, ρσ_unpack);
+        gd = ρσ_unpack[0];
+        f1 = ρσ_unpack[1];
+        mz = ρσ_unpack[2];
+        xfield = ρσ_unpack[3];
+        yfield = ρσ_unpack[4];
+        mr_ave = ρσ_unpack[5];
+    };
+    if (!Clear_plot.__module__) Object.defineProperties(Clear_plot, {
+        __module__ : {value: null}
+    });
+
+    "303";
+    async function Rotate_frame(b) {
+        "307";
+        "309";
+        in_rotating_frame = !in_rotating_frame;
+        "310";
+        if (in_rotating_frame) {
+            "311";
+            b.text = "<b>Rotating</b>/Lab";
+            "312";
+            RF_frame_checkbox.disabled = false;
+            "313";
+        } else {
+            "314";
+            b.text = "Rotating/<b>Lab</b>";
+            "315";
+            RF_frame_checkbox.disabled = true;
+        }
+    };
+    if (!Rotate_frame.__argnames__) Object.defineProperties(Rotate_frame, {
+        __argnames__ : {value: ["b"]},
+        __module__ : {value: null}
+    });
+
+    "317";
+    async function Set_sim_speed(sl_sim_speed) {
+        "321";
+        "323";
+        pct_speed = .01["*"](int(sl_sim_speed.value));
+        "325";
+        wt_sim_speed.text = "{:d}%".format(int(sl_sim_speed.value));
+    };
+    if (!Set_sim_speed.__argnames__) Object.defineProperties(Set_sim_speed, {
+        __argnames__ : {value: ["sl_sim_speed"]},
+        __module__ : {value: null}
+    });
+
+    "327";
+    async function Rotating_frame_select(b) {
+        "333";
+        "335";
+        if (b.checked) {
+            "336";
+            RF_frame_only = true;
+            "337";
+        } else {
+            "338";
+            RF_frame_only = false;
+        }
+    };
+    if (!Rotating_frame_select.__argnames__) Object.defineProperties(Rotating_frame_select, {
+        __argnames__ : {value: ["b"]},
+        __module__ : {value: null}
+    });
+
+    "343";
+    async function RF_start(b) {
+        "347";
+        "349";
+        RF_on = !RF_on;
+        "350";
+        if (RF_on) {
+            b.text = "<b>ON</b>/Off";
+        } else {
+            b.text = "On/<b>OFF</b>";
+        }
+    };
+    if (!RF_start.__argnames__) Object.defineProperties(RF_start, {
+        __argnames__ : {value: ["b"]},
+        __module__ : {value: null}
+    });
+
+    "353";
+    async function RF_select() {
+        "360";
+        "362";
+        RFtype = RF_menu.selected;
+    };
+    if (!RF_select.__module__) Object.defineProperties(RF_select, {
+        __module__ : {value: null}
+    });
+
+    "365";
+    async function Set_h1(h1_mag) {
+        "366";
+        wt_h1.text = "{:1.3f}".format(h1_mag.value);
+        "367";
+        wt_dW_0.text = "{:1.3f}".format(sl_dW.value["*"](h1_mag.value));
+    };
+    if (!Set_h1.__argnames__) Object.defineProperties(Set_h1, {
+        __argnames__ : {value: ["h1_mag"]},
+        __module__ : {value: null}
+    });
+
+    "369";
+    async function Set_Delta_omega(domega) {
+        "370";
+        wt_dW.text = "{:1.3f}".format(domega.value);
+        "371";
+        wt_dW_0.text = "{:1.3f}".format(domega.value["*"](sl_h1.value));
+    };
+    if (!Set_Delta_omega.__argnames__) Object.defineProperties(Set_Delta_omega, {
+        __argnames__ : {value: ["domega"]},
+        __module__ : {value: null}
+    });
+
+    "373";
+    async function T_select() {
+        "377";
+        "378";
+        if ((T_menu.selected === "Infinite" || typeof T_menu.selected === "object" && ρσ_equals(T_menu.selected, "Infinite"))) {
+            "379";
+            T = 1e6["/"](log(2));
+            "380";
+        } else {
+            "381";
+            T = float(T_menu.selected)["/"](log(2));
+        }
+        "382";
+        T2 = T["*"](float(T2_menu.selected))["*"](.01);
+    };
+    if (!T_select.__module__) Object.defineProperties(T_select, {
+        __module__ : {value: null}
+    });
+
+    "384";
+    async function T2_select() {
+        "388";
+        "389";
+        T2 = T["*"](float(T2_menu.selected))["*"](.01);
+    };
+    if (!T2_select.__module__) Object.defineProperties(T2_select, {
+        __module__ : {value: null}
+    });
+
+    "392";
+    async function Interval_select() {
+        "393";
+        "394";
+        sequence_interval = float(Interval_menu.selected);
+    };
+    if (!Interval_select.__module__) Object.defineProperties(Interval_select, {
+        __module__ : {value: null}
+    });
+
+    "397";
+    async function Apulse_select() {
+        "398";
+        "399";
+        Apulse_type = [Apulse_menu.selected, A_RF_menu.selected];
+    };
+    if (!Apulse_select.__module__) Object.defineProperties(Apulse_select, {
+        __module__ : {value: null}
+    });
+
+    "402";
+    async function Bpulse_select() {
+        "403";
+        "404";
+        Bpulse_type = [Bpulse_menu.selected, B_RF_menu.selected];
+    };
+    if (!Bpulse_select.__module__) Object.defineProperties(Bpulse_select, {
+        __module__ : {value: null}
+    });
+
+    "409";
+    async function NumB_pulse_select() {
+        "410";
+    };
+    if (!NumB_pulse_select.__module__) Object.defineProperties(NumB_pulse_select, {
+        __module__ : {value: null}
+    });
+
+    "412";
+    async function Sequence_start() {
+        var ρσ_ls, nextpulse, i;
+        "413";
+        "414";
+        sequence_state = "Fire_A";
+        "415";
+        Npulse = 1["+"](int(NumB_pulse_menu.selected));
+        "416";
+        Tpulse = ρσ_list_decorate([ t_plot ]);
+        "417";
+        for (var ρσ_Index6 = 0; ρσ_Index6["<"](Npulse["-"](1)); ρσ_Index6++) {
+            i = ρσ_Index6;
+            "418";
+            if ((i === 0 || typeof i === "object" && ρσ_equals(i, 0))) {
+                "419";
+                nextpulse = sequence_interval["+"](ρσ_getitem(Tpulse, i));
+                "420";
+            } else {
+                "421";
+                nextpulse = 2["*"](sequence_interval)["+"](ρσ_getitem(Tpulse, i));
+            }
+            "422";
+            Tpulse.append(nextpulse);
+        }
+    };
+    if (!Sequence_start.__module__) Object.defineProperties(Sequence_start, {
+        __module__ : {value: null}
+    });
+
+    "429";
+    async function Instant_select() {
+        "430";
+        "431";
+        instant_pulse = Instant_checkbox.checked;
+    };
+    if (!Instant_select.__module__) Object.defineProperties(Instant_select, {
+        __module__ : {value: null}
+    });
+
+    "433";
+    async function Apulse_on() {
+        "434";
+        "435";
+        Apulse_yes = Apulse_checkbox.checked;
+    };
+    if (!Apulse_on.__module__) Object.defineProperties(Apulse_on, {
+        __module__ : {value: null}
+    });
+
+    "437";
+    async function Bpulse_on() {
+        "438";
+        "439";
+        Bpulse_yes = Bpulse_checkbox.checked;
+    };
+    if (!Bpulse_on.__module__) Object.defineProperties(Bpulse_on, {
+        __module__ : {value: null}
+    });
+
+    "443";
+    async function Stop_plot(b) {
+        "444";
+        "445";
+        plotting = !plotting;
+        "446";
+        if (plotting) {
+            "447";
+            b.text = "Stop plot";
+            "448";
+        } else {
+            b.text = "Start plot";
+        }
+    };
+    if (!Stop_plot.__argnames__) Object.defineProperties(Stop_plot, {
+        __argnames__ : {value: ["b"]},
+        __module__ : {value: null}
+    });
+
+    "450";
+    async function Show_signal(b) {
+        "451";
+        "452";
+        if (b.checked) {
+            "453";
+            f1.visible = true;
+            "454";
+        } else {
+            "455";
+            f1.visible = false;
+        }
+    };
+    if (!Show_signal.__argnames__) Object.defineProperties(Show_signal, {
+        __argnames__ : {value: ["b"]},
+        __module__ : {value: null}
+    });
+
+    "457";
+    async function Show_Mz(b) {
+        "458";
+        "459";
+        if (b.checked) {
+            "460";
+            mz.visible = true;
+            "461";
+        } else {
+            "462";
+            mz.visible = false;
+        }
+    };
+    if (!Show_Mz.__argnames__) Object.defineProperties(Show_Mz, {
+        __argnames__ : {value: ["b"]},
+        __module__ : {value: null}
+    });
+
+    "464";
+    async function Show_Mx(b) {
+        "465";
+        "466";
+        if (b.checked) {
+            "467";
+            Mx.visible = true;
+            "468";
+        } else {
+            "469";
+            Mx.visible = false;
+        }
+    };
+    if (!Show_Mx.__argnames__) Object.defineProperties(Show_Mx, {
+        __argnames__ : {value: ["b"]},
+        __module__ : {value: null}
+    });
+
+    "471";
+    async function Show_My(b) {
+        "472";
+        "473";
+        if (b.checked) {
+            "474";
+            My.visible = true;
+            "475";
+        } else {
+            "476";
+            My.visible = false;
+        }
+    };
+    if (!Show_My.__argnames__) Object.defineProperties(Show_My, {
+        __argnames__ : {value: ["b"]},
+        __module__ : {value: null}
+    });
+
+    "478";
+    async function Show_Mr_ave(b) {
+        "479";
+        "480";
+        mr_ave.visible = b.checked;
+    };
+    if (!Show_Mr_ave.__argnames__) Object.defineProperties(Show_Mr_ave, {
+        __argnames__ : {value: ["b"]},
+        __module__ : {value: null}
+    });
+
+    "482";
+    async function delta_select() {
+        "486";
+        "487";
+        delta = 1["+"](.01["*"](float(w_delta.text)));
+    };
+    if (!delta_select.__module__) Object.defineProperties(delta_select, {
+        __module__ : {value: null}
+    });
+
+    "496";
+    scene = (await set_scene());
+    "499";
+    scene.append_to_caption("<hr width=\"530\" align=\"left\">");
+    "500";
+    scene.append_to_caption("  INITIALIZE SPINS - Shape:");
+    "501";
+    ρσ_interpolate_kwargs.call(this, button, [ρσ_desugar_kwargs({text: "<b>Balls</b>/Arrows", pos: scene.caption_anchor, bind: Set_spin_shape})]);
+    "502";
+    scene.append_to_caption(" No.:");
+    "503";
+    Spin_number = ρσ_interpolate_kwargs.call(this, menu, [ρσ_desugar_kwargs({choices: ρσ_list_decorate([ "1", "5", "10", "100", "300", "1000", "3000" ]), selected: "3000", pos: scene.caption_anchor, bind: Spin_select})]);
+    "505";
+    scene.append_to_caption(" <i>T</i><sub>2</sub><sup>*</sup>: ");
+    (await sleep(.1));
+    "506";
+    fwhm_w = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({width: 50, text: "1.0", pos: scene.caption_anchor, bind: FWHM_select})]);
+    "509";
+    scene.append_to_caption(" <hr width=\"530\" align=\"left\">");
+    "512";
+    scene.append_to_caption("  PROGRAM CONTROL - ");
+    "513";
+    ρσ_interpolate_kwargs.call(this, button, [ρσ_desugar_kwargs({text: "Run", pos: scene.caption_anchor, bind: Run})]);
+    "514";
+    scene.append_to_caption(" ");
+    "515";
+    ρσ_interpolate_kwargs.call(this, button, [ρσ_desugar_kwargs({text: "Reset M", pos: scene.caption_anchor, bind: Reset_M})]);
+    "516";
+    scene.append_to_caption(" ");
+    "517";
+    ρσ_interpolate_kwargs.call(this, button, [ρσ_desugar_kwargs({text: "Clear time", pos: scene.caption_anchor, bind: Clear_plot})]);
+    "518";
+    scene.append_to_caption(" ");
+    "519";
+    frame_button = ρσ_interpolate_kwargs.call(this, button, [ρσ_desugar_kwargs({text: "<b>Rotating</b>/Lab", pos: scene.caption_anchor, bind: Rotate_frame})]);
+    "523";
+    scene.append_to_caption("\n  Simulation speed:");
+    "524";
+    sl_sim_speed = ρσ_interpolate_kwargs.call(this, slider, [ρσ_desugar_kwargs({min: 4, max: 200, value: 100, step: 2, top: 10, length: 150, right: 15, bind: Set_sim_speed})]);
+    "526";
+    wt_sim_speed = ρσ_interpolate_kwargs.call(this, wtext, [ρσ_desugar_kwargs({text: "{:.0f}%".format(sl_sim_speed.value)})]);
+    "527";
+    scene.append_to_caption("  ");
+    "528";
+    RF_frame_checkbox = ρσ_interpolate_kwargs.call(this, checkbox, [ρσ_desugar_kwargs({text: "RF frame only", pos: scene.caption_anchor, checked: false, bind: Rotating_frame_select})]);
+    "531";
+    scene.append_to_caption(" <hr width=\"530\" align=\"left\">");
+    "534";
+    scene.append_to_caption("  CONTINUOUS RF: ");
+    "535";
+    ρσ_interpolate_kwargs.call(this, button, [ρσ_desugar_kwargs({text: "On/<b>OFF</b>", pos: scene.caption_anchor, bind: RF_start})]);
+    "536";
+    scene.append_to_caption("   Align: ");
+    "537";
+    RF_menu = ρσ_interpolate_kwargs.call(this, menu, [ρσ_desugar_kwargs({choices: ρσ_list_decorate([ "x-axis", "y-axis", "oscillating" ]), pos: scene.caption_anchor, bind: RF_select})]);
+    "540";
+    scene.append_to_caption(" <hr width=\"530\" align=\"left\">");
+    "543";
+    scene.append_to_caption("  PULSED RF: ");
+    "544";
+    ρσ_interpolate_kwargs.call(this, button, [ρσ_desugar_kwargs({text: "Trigger", pos: scene.caption_anchor, bind: Sequence_start})]);
+    "545";
+    scene.append_to_caption("  ");
+    "546";
+    Instant_checkbox = ρσ_interpolate_kwargs.call(this, checkbox, [ρσ_desugar_kwargs({text: "'Instant' RF", pos: scene.caption_anchor, checked: true, bind: Instant_select})]);
+    "548";
+    scene.append_to_caption("  N<sub>B</sub>: ");
+    "549";
+    NumB_pulse_menu = ρσ_interpolate_kwargs.call(this, menu, [ρσ_desugar_kwargs({choices: ρσ_list_decorate([ "0", "1", "2", "3", "5", "8", "10", "15", "20" ]), selected: "0", pos: scene.caption_anchor, bind: NumB_pulse_select})]);
+    "552";
+    scene.append_to_caption(" Delay Time: ");
+    "553";
+    Interval_menu = ρσ_interpolate_kwargs.call(this, menu, [ρσ_desugar_kwargs({choices: ρσ_list_decorate([ "0.5", "1", "2", "4", "5", "6", "8", "10", "15", "18", "20", "25", "30", "40", "50" ]), selected: "5", pos: scene.caption_anchor, bind: Interval_select})]);
+    "559";
+    scene.append_to_caption("\n ");
+    "560";
+    Apulse_checkbox = ρσ_interpolate_kwargs.call(this, checkbox, [ρσ_desugar_kwargs({text: "A pulse: ", pos: scene.caption_anchor, checked: true, bind: Apulse_on})]);
+    "562";
+    Apulse_menu = ρσ_interpolate_kwargs.call(this, menu, [ρσ_desugar_kwargs({choices: ρσ_list_decorate([ "pi/2", "pi", "pi+error", "optimal" ]), selected: "pi/2", pos: scene.caption_anchor, bind: Apulse_select})]);
+    "564";
+    scene.append_to_caption("    Align: ");
+    "565";
+    A_RF_menu = ρσ_interpolate_kwargs.call(this, menu, [ρσ_desugar_kwargs({choices: ρσ_list_decorate([ "x-axis", "y-axis", "oscillating" ]), selected: "x-axis", pos: scene.caption_anchor, bind: Apulse_select})]);
+    "569";
+    scene.append_to_caption("\n ");
+    "570";
+    Bpulse_checkbox = ρσ_interpolate_kwargs.call(this, checkbox, [ρσ_desugar_kwargs({text: "B pulse: ", pos: scene.caption_anchor, checked: false, bind: Bpulse_on})]);
+    "572";
+    Bpulse_menu = ρσ_interpolate_kwargs.call(this, menu, [ρσ_desugar_kwargs({choices: ρσ_list_decorate([ "pi/2", "pi", "pi+error", "optimal" ]), selected: "pi", pos: scene.caption_anchor, bind: Bpulse_select})]);
+    "574";
+    scene.append_to_caption("    Align: ");
+    "575";
+    B_RF_menu = ρσ_interpolate_kwargs.call(this, menu, [ρσ_desugar_kwargs({choices: ρσ_list_decorate([ "x-axis", "y-axis", "oscillating" ]), selected: "x-axis", pos: scene.caption_anchor, bind: Bpulse_select})]);
+    "577";
+    scene.append_to_caption("  pi error(%): ");
+    (await sleep(.1));
+    "578";
+    w_delta = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({width: 30, text: "20", pos: scene.caption_anchor, bind: delta_select})]);
+    "582";
+    scene.append_to_caption("<hr width=\"530\" align=\"left\">");
+    "586";
+    scene.append_to_caption("  RF amplitude <i>&omega;</i><sub>1</sub>:\n");
+    "587";
+    sl_h1 = ρσ_interpolate_kwargs.call(this, slider, [ρσ_desugar_kwargs({min: .01, max: 1.2, value: .4, length: 250, bind: Set_h1, left: 25, right: 15})]);
+    "589";
+    wt_h1 = ρσ_interpolate_kwargs.call(this, wtext, [ρσ_desugar_kwargs({text: "{:1.3f}".format(sl_h1.value)})]);
+    "590";
+    scene.append_to_caption(" <i>&omega;</i><sub>0</sub>");
+    "593";
+    scene.append_to_caption("\n  RF detuning &Delta;<i>&omega;</i>:\n");
+    "594";
+    sl_dW = ρσ_interpolate_kwargs.call(this, slider, [ρσ_desugar_kwargs({min: 1["-u"]()["*"](2.5), max: 2.5, value: 0, step: .01, length: 250, bind: Set_Delta_omega, left: 25, right: 15})]);
+    "596";
+    wt_dW = ρσ_interpolate_kwargs.call(this, wtext, [ρσ_desugar_kwargs({text: "{:1.3f}".format(sl_dW.value)})]);
+    "597";
+    scene.append_to_caption(" <i>&omega;</i><sub>1</sub> (");
+    "598";
+    wt_dW_0 = ρσ_interpolate_kwargs.call(this, wtext, [ρσ_desugar_kwargs({text: "{:1.3f}".format(sl_dW.value)})]);
+    "599";
+    scene.append_to_caption(" <i>&omega;</i><sub>0</sub>)");
+    "602";
+    scene.append_to_caption("<hr width=\"530\" align=\"left\">");
+    "603";
+    scene.append_to_caption("  <i>T</i><sub>1</sub> (half-life): ");
+    "604";
+    T_menu = ρσ_interpolate_kwargs.call(this, menu, [ρσ_desugar_kwargs({choices: ρσ_list_decorate([ "4.0", "8.0", "10.0", "20.0", "50.0", "100.0", "200.0", "500.0", "1000.0", "Infinite" ]), selected: "Infinite", bind: T_select})]);
+    "608";
+    scene.append_to_caption("   <i>T</i><sub>2</sub> (% of <i>T</i><sub>1</sub>): ");
+    "609";
+    T2_menu = ρσ_interpolate_kwargs.call(this, menu, [ρσ_desugar_kwargs({choices: ρσ_list_decorate([ "100", "90", "50", "10", "5", "1" ]), selected: "100", bind: T2_select})]);
+    "613";
+    scene.append_to_caption("<hr width=\"530\" align=\"left\">");
+    "614";
+    scene.append_to_caption("  ");
+    "615";
+    ρσ_interpolate_kwargs.call(this, button, [ρσ_desugar_kwargs({text: "Start plot", pos: scene.caption_anchor, bind: Stop_plot})]);
+    "616";
+    scene.append_to_caption("  ");
+    "617";
+    show_signal_checkbox = ρσ_interpolate_kwargs.call(this, checkbox, [ρσ_desugar_kwargs({bind: Show_signal, text: "<font color=\"blue\"><i>M</i><sub>&perp;</sub></font>  ", checked: true})]);
+    "620";
+    show_Mz_checkbox = ρσ_interpolate_kwargs.call(this, checkbox, [ρσ_desugar_kwargs({bind: Show_Mz, text: "<font color=\"gray\"><i>M<sub>z</sub></i></font>  ", checked: false})]);
+    "623";
+    show_Mr_ave_checkbox = ρσ_interpolate_kwargs.call(this, checkbox, [ρσ_desugar_kwargs({bind: Show_Mr_ave, text: "<font color=\"orange\">&langle;<i>M<sub>&perp;</sub></i>&rangle;</font>  ", checked: false})]);
+    "626";
+    show_Mx_checkbox = ρσ_interpolate_kwargs.call(this, checkbox, [ρσ_desugar_kwargs({bind: Show_Mx, text: "<font color=\"red\"><i>M<sub>x</sub></i></font>  ", checked: false})]);
+    "629";
+    show_My_checkbox = ρσ_interpolate_kwargs.call(this, checkbox, [ρσ_desugar_kwargs({bind: Show_My, text: "<font color=\"green\"><i>M<sub>y</sub></i></font>", checked: false})]);
+    "632";
+    scene.append_to_caption("  \n\n");
+    "639";
+    wt_time = ρσ_interpolate_kwargs.call(this, label, [ρσ_desugar_kwargs({text: "Time: {:.1f}".format(t), pixel_pos: true, align: "right", pos: vector(160, 60, 0)})]);
+    "641";
+    wt_next_pulse = ρσ_interpolate_kwargs.call(this, label, [ρσ_desugar_kwargs({text: " ", pos: vector(180, 60, 0), align: "left", pixel_pos: true, box: false, opacity: 0})]);
+    "645";
+    rotating_frame = (await draw_axes());
+    "648";
+    M = ρσ_interpolate_kwargs.call(this, arrow, [ρσ_desugar_kwargs({pos: vector(0, 0, 0), axis: m0, shaftwidth: .3, round: true, color: color.blue})]);
+    "650";
+    B = ρσ_interpolate_kwargs.call(this, arrow, [ρσ_desugar_kwargs({pos: vector(0, 0, 0), axis: Om0["/"](gamma), shaftwidth: .3, round: true, color: color.green})]);
+    "656";
+    phi1 = (await Domega())["+"](omega0)["*"](t);
+    "657";
+    dphi1 = 0;
+    "658";
+    pulse_time = 0;
+    "659";
+    OMEGA = vector(0, 0, omega0);
+    "660";
+    m = chi["*"](OMEGA)["/"](gamma);
+    "661";
+    T_max = 1005["/"](log(2));
+    "662";
+    T = T0["/"](log(2));
+    "663";
+    T2 = T;
+    "668";
+    running = false;
+    "669";
+    in_rotating_frame = true;
+    "670";
+    RF_frame_only = false;
+    "671";
+    RF_on = false;
+    "672";
+    RFtype = "x-axis";
+    "673";
+    N_start = 0;
+    "674";
+    sequence_state = "Fire_A";
+    "675";
+    plotting = false;
+    "676";
+    phi_latch = true;
+    "677";
+    is_arrow = false;
+    "678";
+    prog_ctl = "init";
+    "679";
+    newspins = int(Spin_number.selected);
+    "680";
+    FWHM = sqrt(2["*"](log(2)))["/"](float(fwhm_w.text));
+    "681";
+    Npulse = int(NumB_pulse_menu.selected);
+    "682";
+    Apulse_type = [Apulse_menu.selected, A_RF_menu.selected];
+    "683";
+    Bpulse_type = [Bpulse_menu.selected, B_RF_menu.selected];
+    "684";
+    sequence_interval = float(Interval_menu.selected);
+    "685";
+    t_nextPulse = 0;
+    "686";
+    t_boundary = 0;
+    "687";
+    instant_pulse = Instant_checkbox.checked;
+    "688";
+    Apulse_yes = Apulse_checkbox.checked;
+    "689";
+    Bpulse_yes = Bpulse_checkbox.checked;
+    "690";
+    delta = 1["+"](float(w_delta.text)["*"](.01));
+    "696";
+    async function calc_OMEGA() {
+        var ρσ_ls, this_OMEGA, dt, instant, ρσ_unpack, this_OMEGA_lab;
+        "702";
+        "703";
+        "704";
+        "705";
+        "707";
+        this_OMEGA = vector(0, 0, 0);
+        "708";
+        dt = current_dt;
+        "710";
+        if (Npulse[">"](0)) {
+            "713";
+            if ((sequence_state === "Fire_A" || typeof sequence_state === "object" && ρσ_equals(sequence_state, "Fire_A"))) {
+                "715";
+                N_start = Npulse;
+                "717";
+                if (Apulse_yes) {
+                    "718";
+                    pulse_time = t["+"]((await Pulse_length(ρσ_getitem(Apulse_type, 0))));
+                    "719";
+                    RFtype = ρσ_getitem(Apulse_type, 1);
+                }
+                "721";
+                Npulse = Npulse["-"](1["*"](1));
+                "722";
+                if (Npulse[">"](0)) {
+                    "723";
+                    t_nextPulse = ρσ_getitem(Tpulse, N_start["-"](1["*"](Npulse)));
+                    "724";
+                    t_boundary = t_nextPulse["-"](1["*"](dt)["*"](1.0001));
+                    "725";
+                    wt_next_pulse.text = "B pulse {:d} at {:.1f}".format(N_start["-"](1["*"](Npulse)), t_nextPulse);
+                    "727";
+                } else {
+                    "728";
+                    wt_next_pulse.text = " ";
+                }
+                "729";
+                sequence_state = "Idle";
+                "731";
+            } else if ((sequence_state === "Fire_B" || typeof sequence_state === "object" && ρσ_equals(sequence_state, "Fire_B"))) {
+                "733";
+                if (Bpulse_yes) {
+                    "734";
+                    pulse_time = t["+"]((await Pulse_length(ρσ_getitem(Bpulse_type, 0))));
+                    "735";
+                    RFtype = ρσ_getitem(Bpulse_type, 1);
+                }
+                "737";
+                Npulse = Npulse["-"](1["*"](1));
+                "738";
+                if (Npulse[">"](0)) {
+                    "739";
+                    t_nextPulse = ρσ_getitem(Tpulse, N_start["-"](1["*"](Npulse)));
+                    "740";
+                    t_boundary = t_nextPulse["-"](1["*"](dt)["*"](1.0001));
+                    "741";
+                    wt_next_pulse.text = "B pulse {:d} at {:.1f}".format(N_start["-"](1["*"](Npulse)), t_nextPulse);
+                    "743";
+                } else {
+                    "744";
+                    wt_next_pulse.text = " ";
+                }
+                "745";
+                sequence_state = "Idle";
+                "747";
+            } else if ((sequence_state === "Idle" || typeof sequence_state === "object" && ρσ_equals(sequence_state, "Idle"))) {
+                "750";
+                if (Npulse[">"](0) && t_plot[">"](t_boundary)) {
+                    "751";
+                    sequence_state = "Fire_B";
+                    "752";
+                } else {
+                    "753";
+                    sequence_state = "Idle";
+                    "755";
+                }
+            }
+        }
+        if (RF_on || t["<"](pulse_time)) {
+            "757";
+            instant = instant_pulse;
+            "759";
+            if (t["<"](pulse_time) && t["+"](dt)[">"](pulse_time)) {
+                "761";
+                dt = pulse_time["-"](1["*"](t));
+                "763";
+            }
+            if (phi_latch) {
+                "764";
+                phi1 = 0;
+            }
+            "766";
+            this_OMEGA.z = (await Domega());
+            "767";
+            ρσ_unpack = (await RF_function(phi1, RFtype));
+ρσ_unpack = ρσ_unpack_asarray(2, ρσ_unpack);
+            this_OMEGA.x = ρσ_unpack[0];
+            this_OMEGA.y = ρσ_unpack[1];
+            "768";
+            phi_latch = false;
+            "769";
+        } else {
+            "772";
+            if (spin_0_trail) {
+                tip.clear_trail();
+            }
+            "776";
+            instant = false;
+            "778";
+            phi_latch = true;
+            "780";
+            ρσ_unpack = [0, 0, 0];
+            this_OMEGA.x = ρσ_unpack[0];
+            this_OMEGA.y = ρσ_unpack[1];
+            this_OMEGA.z = ρσ_unpack[2];
+            "781";
+            if (RF_frame_only) {
+                "782";
+                this_OMEGA.z = (await Domega());
+            }
+        }
+        "784";
+        this_OMEGA_lab = vector(this_OMEGA.x, this_OMEGA.y, omega0);
+        "786";
+        return [dt, this_OMEGA, instant, this_OMEGA_lab];
+    };
+    if (!calc_OMEGA.__module__) Object.defineProperties(calc_OMEGA, {
+        __module__ : {value: null}
+    });
+
+    "793";
+    ρσ_unpack = (await makeplot());
+ρσ_unpack = ρσ_unpack_asarray(6, ρσ_unpack);
+    gd = ρσ_unpack[0];
+    f1 = ρσ_unpack[1];
+    mz = ρσ_unpack[2];
+    Mx = ρσ_unpack[3];
+    My = ρσ_unpack[4];
+    mr_ave = ρσ_unpack[5];
+    "797";
+    spin_0_trail = false;
+    "798";
+    if (spin_0_trail) {
+        "799";
+        trail_points = 300;
+        "800";
+        tip = ρσ_interpolate_kwargs.call(this, sphere, [ρσ_desugar_kwargs({radius: 0, pos: m0, make_trail: true, color: color.blue, visible: true, retain: trail_points})]);
+    }
+    "803";
+    while (true) {
+        "804";
+        (await rate(ticks_per_s["*"](pct_speed)));
+        "806";
+        if ((prog_ctl === "init" || typeof prog_ctl === "object" && ρσ_equals(prog_ctl, "init"))) {
+            "807";
+            Nspins = await ρσ_list_decorate(ρσ_interpolate_kwargs.call(this, spin_initialize, [ρσ_desugar_kwargs({Hwidth: FWHM, N: newspins})]));
+            "808";
+            prog_ctl = "operate";
+            "810";
+        } else if ((prog_ctl === "operate" || typeof prog_ctl === "object" && ρσ_equals(prog_ctl, "operate"))) {
+            "812";
+            ρσ_unpack = (await calc_OMEGA());
+ρσ_unpack = ρσ_unpack_asarray(4, ρσ_unpack);
+            dt = ρσ_unpack[0];
+            OMEGA = ρσ_unpack[1];
+            instant = ρσ_unpack[2];
+            OMEGA_lab = ρσ_unpack[3];
+            "815";
+            if (is_arrow) {
+                "816";
+                var ρσ_Iter7 = (await zip(spins, lil_ems));
+                ρσ_Iter7 = ((typeof ρσ_Iter7[Symbol.iterator] === "function") ? (ρσ_Iter7 instanceof Map ? ρσ_Iter7.keys() : ρσ_Iter7) : Object.keys(ρσ_Iter7));
+                for (var ρσ_Index7 of ρσ_Iter7) {
+                    ρσ_unpack = ρσ_Index7;
+                    spin = ρσ_unpack[0];
+                    em = ρσ_unpack[1];
+                    "817";
+                    em.axis = spin;
+                    "818";
+                }
+            } else {
+                "819";
+                var ρσ_Iter8 = (await zip(spins, lil_ems));
+                ρσ_Iter8 = ((typeof ρσ_Iter8[Symbol.iterator] === "function") ? (ρσ_Iter8 instanceof Map ? ρσ_Iter8.keys() : ρσ_Iter8) : Object.keys(ρσ_Iter8));
+                for (var ρσ_Index8 of ρσ_Iter8) {
+                    ρσ_unpack = ρσ_Index8;
+                    spin = ρσ_unpack[0];
+                    em = ρσ_unpack[1];
+                    "820";
+                    em.pos = spin;
+                    "822";
+                }
+            }
+            if (!in_rotating_frame) {
+                "823";
+                B.axis = OMEGA_lab["/"](gamma);
+                "824";
+            } else {
+                "825";
+                B.axis = OMEGA["/"](gamma);
+            }
+            "826";
+            ρσ_unpack = (await ave_vector(spins));
+ρσ_unpack = ρσ_unpack_asarray(2, ρσ_unpack);
+            m = ρσ_unpack[0];
+            m_ave_perp = ρσ_unpack[1];
+            "827";
+            M.axis = m;
+            "828";
+            if (spin_0_trail) {
+                tip.pos = ρσ_getitem(lil_ems, 0).pos;
+            }
+            "830";
+            if (running) {
+                "831";
+                if (!in_rotating_frame) {
+                    "832";
+                    scene.forward = ρσ_interpolate_kwargs.call(scene.forward, scene.forward.rotate, [ρσ_desugar_kwargs({angle: dphi1, axis: Om0})]);
+                }
+                "833";
+                var ρσ_Iter9 = range(len(spins));
+                ρσ_Iter9 = ((typeof ρσ_Iter9[Symbol.iterator] === "function") ? (ρσ_Iter9 instanceof Map ? ρσ_Iter9.keys() : ρσ_Iter9) : Object.keys(ρσ_Iter9));
+                for (var ρσ_Index9 of ρσ_Iter9) {
+                    i = ρσ_Index9;
+                    "834";
+                    mm = ρσ_getitem(spins, i);
+                    "835";
+                    if (!instant) {
+                        "836";
+                        hh = OMEGA["+"](ρσ_getitem(omega_local, i));
+                        "837";
+                    } else {
+                        "838";
+                        hh = OMEGA;
+                    }
+                    "839";
+                    mm = ρσ_interpolate_kwargs.call(mm, mm.rotate, [ρσ_desugar_kwargs({angle: 1["-u"]()["*"](hh.mag)["*"](dt), axis: hh})]);
+                    "840";
+                    if (T["<="](T_max) && (instant === false || typeof instant === "object" && ρσ_equals(instant, false))) {
+                        "841";
+                        mm.z=mm.z["-"]((mm["-"](1["*"](chi["*"](OMEGA_lab)["/"](gamma)))).z["/"](T)["*"](dt));
+                        "842";
+                        mm.x=mm.x["-"]((mm["-"](1["*"](chi["*"](OMEGA_lab)["/"](gamma)))).x["/"](T2)["*"](dt));
+                        "843";
+                        mm.y=mm.y["-"]((mm["-"](1["*"](chi["*"](OMEGA_lab)["/"](gamma)))).y["/"](T2)["*"](dt));
+                    }
+                    "844";
+                    ρσ_setitem(spins, i, mm);
+                }
+                "845";
+                dphi1 = 1["-u"]()["*"]((await Domega()))["+"](omega0)["*"](dt);
+                "846";
+                phi1 = phi1["+"](dphi1);
+                "847";
+                t = t["+"](dt);
+                "848";
+                if (!instant) {
+                    "849";
+                    t_plot = t_plot["+"](dt);
+                }
+                "851";
+                wt_time.text = "Time: {:.1f}".format(t_plot);
+                "852";
+                m_signal = sqrt(Math.pow(m.x, 2)["+"](Math.pow(m.y, 2)));
+                "853";
+                if (plotting) {
+                    "854";
+                    f1.plot(ρσ_list_decorate([ t_plot, m_signal ]));
+                    "855";
+                    mz.plot(ρσ_list_decorate([ t_plot, m.z ]));
+                    "856";
+                    mr_ave.plot(ρσ_list_decorate([ t_plot, m_ave_perp ]));
+                    "857";
+                    Mx.plot(ρσ_list_decorate([ t_plot, m.x ]));
+                    "858";
+                    My.plot(ρσ_list_decorate([ t_plot, m.y ]));
+                }
+            }
+        }
+    }
+};
+if (!__main__.__module__) Object.defineProperties(__main__, {
+    __module__ : {value: null}
+});
+
+;$(function(){ window.__context = { glowscript_container: $("#glowscript").removeAttr("id") }; __main__() })})()
+// END JAVASCRIPT
+
+//--><!]]></script>
+</div>
